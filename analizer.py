@@ -7,11 +7,6 @@ import urllib.request
 import tarfile
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer
-import nltk
-from nltk.corpus import stopwords
-import re
 
 # Defining dataset Url
 
@@ -34,20 +29,25 @@ if not os.path.exists("aclImdb"):
 
 # Loading the dataset using pandas
 
-def load_dataset():
-    pos_dir = "aclImdb/train/pos"
-    neg_dir = "aclImdb/train/neg"
+def load_dataset(data_dir):
     data = []
-
-    for file in os.listdir(pos_dir):
-        with open(os.path.join(pos_dir, file), "r", encoding="utf-8") as f:
-            data.append((f.read(), 1))
-    for file in os.listdir(neg_dir):
-        with open(os.path.join(neg_dir, file), "r", encoding="utf-8") as f:
-            data.append((f.read(), 0))
+    for sentiment in ["pos", "neg"]:
+        path = os.path.join(data_dir, sentiment)
+        for file in os.listdir(path):
+            with open(os.path.join(path, file), "r", encoding="utf-8") as f:
+                text = f.read()
+                data.append((text, 1 if sentiment == "pos" else 0))
     return pd.DataFrame(data, columns=["review", "sentiment"])
 
 # Find a way to print the first row of the dataset in pandas
-data = load_dataset()
-print(len(data))
-print(data[0])
+
+train_data = load_dataset("aclImdb/train")
+test_data = load_dataset("aclImdb/test")
+print("\nTrain data info:")
+print(train_data.info())
+print("\nTrain data:")
+print(train_data.head())
+print("\nTest data info:")
+print(test_data.info())
+print("\nTest data:")
+print(test_data.head())
