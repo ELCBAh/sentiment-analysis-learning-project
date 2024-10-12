@@ -45,8 +45,9 @@ def load_dataset():
     for file in os.listdir(neg_dir):
         with open(os.path.join(neg_dir, file), "r", encoding="utf-8") as f:
             data.append((f.read(), 0))
-    return data
+    return pd.DataFrame(data, columns=["review", "sentiment"])
 
+# Find a way to print the first row of the dataset in pandas
 data = load_dataset()
 print(len(data))
 print(data[0])
