@@ -48,7 +48,7 @@ def load_dataset(data_dir):
                 print(f"Error reading file {file}: {e}")
     return pd.DataFrame(data, columns=["review", "sentiment"])
 
-# Data is being printed, but the path is not correct.
+# Printing pandas data.
 
 train_data = load_dataset(os.path.join("aclImdb", "train"))
 test_data = load_dataset(os.path.join("aclImdb", "test"))
