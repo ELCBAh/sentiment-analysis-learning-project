@@ -15,6 +15,7 @@ filename = "aclImdb_v1.tar.gz"
 
 
 # Downloading and extracting the dataset
+"""
 
 if not os.path.exists(filename):
     print("Downloading the dataset...")
@@ -27,22 +28,30 @@ if not os.path.exists("aclImdb"):
         tar.extractall()
     print("Extraction complete.")
 
+"""
+
 # Loading the dataset using pandas
 
 def load_dataset(data_dir):
     data = []
     for sentiment in ["pos", "neg"]:
         path = os.path.join(data_dir, sentiment)
+        if not os.path.exists(path):
+            print(f"Path {path} does not exist")
+            continue
         for file in os.listdir(path):
-            with open(os.path.join(path, file), "r", encoding="utf-8") as f:
-                text = f.read()
-                data.append((text, 1 if sentiment == "pos" else 0))
+            try:
+                with open(os.path.join(path, file), "r", encoding="utf-8") as f:
+                    text = f.read()
+                    data.append((text, 1 if sentiment == "pos" else 0))
+            except Exception as e:
+                print(f"Error reading file {file}: {e}")
     return pd.DataFrame(data, columns=["review", "sentiment"])
 
-# Find a way to print the first row of the dataset in pandas
+# Data is being printed, but the path is not correct.
 
-train_data = load_dataset("aclImdb/train")
-test_data = load_dataset("aclImdb/test")
+train_data = load_dataset(os.path.join("aclImdb", "train"))
+test_data = load_dataset(os.path.join("aclImdb", "test"))
 print("\nTrain data info:")
 print(train_data.info())
 print("\nTrain data:")
