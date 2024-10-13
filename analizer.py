@@ -7,6 +7,7 @@ import urllib.request
 import tarfile
 import pandas as pd
 import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Defining dataset Url
 
@@ -31,8 +32,6 @@ if not os.path.exists("aclImdb"):
     print("Extraction complete.")
 
 """
-
-# Loading the dataset using pandas
 
 def load_dataset(data_dir):
     """Function to load the dataset into a pandas DataFrame.
@@ -63,10 +62,29 @@ def load_dataset(data_dir):
                 print(f"Error reading file {file}: {e}")
     return pd.DataFrame(data, columns=["review", "sentiment"])
 
+# Converting data to vectors
+
+def vectorize_data(train_data, test_data):
+    """
+    Convert text data into TF-IDF vectors.
+
+    Args:
+        train_data (pd.DataFrame): Training data
+        test_data (pd.DataFrame): Test data
+
+    Returns:
+        tuple: (train_vectors, test_vectors, vectorizer)
+    """
+    vectorizer = TfidfVectorizer(max_features=5000)
+    train_vectors = vectorizer.fit_transform(train_data['review'])
+    test_vectors = vectorizer.transform(test_data['review'])
+    return train_vectors, test_vectors, vectorizer
+
 # Printing pandas data.
 
 train_data = load_dataset(os.path.join("aclImdb", "train"))
 test_data = load_dataset(os.path.join("aclImdb", "test"))
+
 print("\nTrain data info:")
 print(train_data.info())
 print("\nTrain data:")
@@ -75,3 +93,8 @@ print("\nTest data info:")
 print(test_data.info())
 print("\nTest data:")
 print(test_data.head())
+
+train_vectors, test_vectors, vectorizer = vectorize_data(train_data, test_data)
+
+print("\nTrain vectors shape:", train_vectors.shape)
+print("Test vectors shape:", test_vectors.shape)
