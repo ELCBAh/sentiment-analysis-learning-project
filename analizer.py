@@ -3,8 +3,8 @@ This is the main structure of the project.
 """
 
 import os
-import urllib.request
-import tarfile
+# import urllib.request
+# import tarfile
 import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
