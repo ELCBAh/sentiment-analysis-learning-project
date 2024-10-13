@@ -15,6 +15,8 @@ filename = "aclImdb_v1.tar.gz"
 
 
 # Downloading and extracting the dataset
+
+# Uncomment the following lines to download and extract the dataset
 """
 
 if not os.path.exists(filename):
@@ -33,6 +35,14 @@ if not os.path.exists("aclImdb"):
 # Loading the dataset using pandas
 
 def load_dataset(data_dir):
+    """Function to load the dataset into a pandas DataFrame.
+
+    Args:
+        data_dir (string): path to the dataset
+
+    Returns:
+        pandas DataFrame: Returns a dataframe with the review and sentiment columns.
+    """
     data = []
     for sentiment in ["pos", "neg"]:
         path = os.path.join(data_dir, sentiment)
