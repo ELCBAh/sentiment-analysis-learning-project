@@ -49,11 +49,16 @@ def load_dataset(data_dir):
         if not os.path.exists(path):
             print(f"Path {path} does not exist")
             continue
-        for file in os.listdir(path):
+        file_count = len(os.listdir(path))
+        for i, file in enumerate(os.listdir(path), 1):
+            if i % 1000 == 0:
+                print(f"Processed {i}/{file_count} files for sentiment {sentiment}")
             try:
                 with open(os.path.join(path, file), "r", encoding="utf-8") as f:
                     text = f.read()
                     data.append((text, 1 if sentiment == "pos" else 0))
+            except UnicodeDecodeError:
+                print(f"UnicodeDecodeError for file {file}. Skipping this file.")
             except Exception as e:
                 print(f"Error reading file {file}: {e}")
     return pd.DataFrame(data, columns=["review", "sentiment"])
