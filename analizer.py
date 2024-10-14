@@ -8,7 +8,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 # from sklearn.metrics import accuracy_score, classification_report
 
 def load_dataset(data_dir):
-    """Function to load the dataset into a pandas DataFrame.
+    """
+    Function to load the dataset into a pandas DataFrame.
 
     Args:
         data_dir (string): path to the dataset
