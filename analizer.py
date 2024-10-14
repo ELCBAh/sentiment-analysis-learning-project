@@ -1,12 +1,11 @@
 """
 This is the main structure of the project.
 """
-from dataset_downloader import dataset_downloader
 import os
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report
+# from sklearn.linear_model import LogisticRegression
+# from sklearn.metrics import accuracy_score, classification_report
 
 def load_dataset(data_dir):
     """Function to load the dataset into a pandas DataFrame.
