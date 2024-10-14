@@ -1,34 +1,12 @@
 """
 This is the main structure of the project.
 """
-
+from dataset_downloader import dataset_downloader
 import os
-# import urllib.request
-# import tarfile
 import pandas as pd
-import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
-
-# Defining dataset Url
-
-url = "https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
-filename = "aclImdb_v1.tar.gz"
-
-# Uncomment the following lines to download and extract the dataset
-"""
-
-if not os.path.exists(filename):
-    print("Downloading the dataset...")
-    urllib.request.urlretrieve(url, filename)
-    print("Download complete.")
-
-if not os.path.exists("aclImdb"):
-    print("Extracting the dataset...")
-    with tarfile.open(filename, "r:gz") as tar:
-        tar.extractall()
-    print("Extraction complete.")
-
-"""
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
 
 def load_dataset(data_dir):
     """Function to load the dataset into a pandas DataFrame.
@@ -78,20 +56,29 @@ def vectorize_data(train_data, test_data):
     return train_vectors, test_vectors, vectorizer
 
 # Printing pandas data.
+if __name__ == "__main__":
+    # Downloading and extracting the dataset
+    url = "https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
+    filename = "aclImdb_v1.tar.gz"
+    dataset_downloader(url, filename)
 
-train_data = load_dataset(os.path.join("aclImdb", "train"))
-test_data = load_dataset(os.path.join("aclImdb", "test"))
+    # Loading the dataset
+    train_data = load_dataset(os.path.join("aclImdb", "train"))
+    test_data = load_dataset(os.path.join("aclImdb", "test"))
 
-print("\nTrain data info:")
-print(train_data.info())
-print("\nTrain data:")
-print(train_data.head())
-print("\nTest data info:")
-print(test_data.info())
-print("\nTest data:")
-print(test_data.head())
+    # Printing the dataset info
+    print("\nTrain data info:")
+    print(train_data.info())
+    print("\nTrain data:")
+    print(train_data.head())
+    print("\nTest data info:")
+    print(test_data.info())
+    print("\nTest data:")
+    print(test_data.head())
 
-train_vectors, test_vectors, vectorizer = vectorize_data(train_data, test_data)
+    # Converting data to vectors
+    train_vectors, test_vectors, vectorizer = vectorize_data(train_data, test_data)
 
-print("\nTrain vectors shape:", train_vectors.shape)
-print("Test vectors shape:", test_vectors.shape)
+    # Printing the vectors shape
+    print("\nTrain vectors shape:", train_vectors.shape)
+    print("Test vectors shape:", test_vectors.shape)
