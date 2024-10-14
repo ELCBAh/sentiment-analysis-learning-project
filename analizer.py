@@ -14,9 +14,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 url = "https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
 filename = "aclImdb_v1.tar.gz"
 
-
-# Downloading and extracting the dataset
-
 # Uncomment the following lines to download and extract the dataset
 """
 
