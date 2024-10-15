@@ -72,13 +72,15 @@ def evaluate_model(model, test_vectors, test_data):
     Args:
         model (LogisticRegression): The trained model
         test_vectors (np.array): Test vectors
-        test_labels (np.array): Test labels
+        test_data (pd.DataFrame): Test data containing 'sentiment' column
 
     Returns:
-        float: Accuracy of the model
+        tuple: (accuracy, classification_report)
     """
     predictions = model.predict(test_vectors)
-    return accuracy_score(test_data['sentiment'], predictions)
+    accuracy = accuracy_score(test_data['sentiment'], predictions)
+    report = classification_report(test_data['sentiment'], predictions, target_names=['negative', 'positive'])
+    return accuracy, report
 
 def predict_sentiment(model, vectorizer, texts):
     """

@@ -37,8 +37,9 @@ if __name__ == "__main__":
     model = train_model(train_vectors, train_data)
 
     # Evaluating the model
-    accuracy = evaluate_model(model, test_vectors, test_data)
+    accuracy, report = evaluate_model(model, test_vectors, test_data)
     print(f"\nModel accuracy: {accuracy:.2f}%")
+    print(f"\nClassification report:\n{report}")
 
     # Predicting the sentiment of a given text
     text = ["This model is working but poorly", "I love this product! It's amazing.", "I hate this product! It's terrible.", "I will probably choose a different option next time."]
