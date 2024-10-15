@@ -4,7 +4,7 @@ This is the main structure of the project.
 import os
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression # TODO: Change to another model
 from sklearn.metrics import accuracy_score, classification_report
 
 def load_dataset(data_dir):
