@@ -3,7 +3,7 @@ This script is used to run the sentiment analysis project.
 """
 
 from dataset_downloader import dataset_downloader
-from analizer import load_dataset, vectorize_data
+from analizer import load_dataset, vectorize_data, train_model, evaluate_model, predict_sentiment
 import os
 
 if __name__ == "__main__":
@@ -32,3 +32,15 @@ if __name__ == "__main__":
     # Printing the vectors shape
     print("\nTrain vectors shape:", train_vectors.shape)
     print("Test vectors shape:", test_vectors.shape)
+
+    # Training the model
+    model = train_model(train_vectors, train_data)
+
+    # Evaluating the model
+    accuracy = evaluate_model(model, test_vectors, test_data)
+    print(f"\nModel accuracy: {accuracy:.2f}%")
+
+    # Predicting the sentiment of a given text
+    text = ["This model is working but poorly", "I love this product! It's amazing.", "I hate this product! It's terrible.", "I will probably choose a different option next time."]
+    sentiment = predict_sentiment(model, vectorizer, text)
+    print(f"\nThe sentiment of the text is: {sentiment}")

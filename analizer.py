@@ -4,8 +4,8 @@ This is the main structure of the project.
 import os
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-# from sklearn.linear_model import LogisticRegression
-# from sklearn.metrics import accuracy_score, classification_report
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
 
 def load_dataset(data_dir):
     """
@@ -54,3 +54,59 @@ def vectorize_data(train_data, test_data):
     train_vectors = vectorizer.fit_transform(train_data['review'])
     test_vectors = vectorizer.transform(test_data['review'])
     return train_vectors, test_vectors, vectorizer
+
+def train_model(train_vectors, train_data):
+    """
+    Train a logistic regression model.
+
+    Args:
+        train_vectors (np.array): Training vectors
+        train_labels (np.array): Training labels
+    """
+    model = LogisticRegression(max_iter=1000)
+    model.fit(train_vectors, train_data['sentiment'])
+    return model
+
+def evaluate_model(model, test_vectors, test_data):
+    """
+    Evaluate the model.
+
+    Args:
+        model (LogisticRegression): The trained model
+        test_vectors (np.array): Test vectors
+        test_labels (np.array): Test labels
+
+    Returns:
+        float: Accuracy of the model
+    """
+    predictions = model.predict(test_vectors)
+    return accuracy_score(test_data['sentiment'], predictions)
+
+def predict_sentiment(model, vectorizer, texts):
+    """
+    Predict the sentiment of given text(s).
+
+    Args:
+        model (LogisticRegression): The trained model
+        vectorizer (TfidfVectorizer): The vectorizer used for training
+        texts (str or list): Single text or list of texts to predict
+
+    Returns:
+        str or list: The predicted sentiment(s)
+    """
+    if isinstance(texts, str):
+        texts = [texts]
+        single_input = True
+    else:
+        single_input = False
+
+    results = []
+    for text in texts:
+        print(f"Evaluating sentiment for text: '{text}'")
+        text_vector = vectorizer.transform([text])
+        prediction = model.predict(text_vector)
+        sentiment = "positive" if prediction[0] == 1 else "negative"
+        print(f"Predicted sentiment: {sentiment}")
+        results.append(sentiment)
+
+    return results[0] if single_input else results
