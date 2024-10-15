@@ -37,8 +37,6 @@ def load_dataset(data_dir):
                 print(f"Error reading file {file}: {e}")
     return pd.DataFrame(data, columns=["review", "sentiment"])
 
-# Converting data to vectors
-
 def vectorize_data(train_data, test_data):
     """
     Convert text data into TF-IDF vectors.
